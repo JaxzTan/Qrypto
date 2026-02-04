@@ -1,10 +1,10 @@
 node_modules
 .env
 .claude/
-.yarn/
-.yarnrc.yml
-yarn.lock
+# .yarn/
+# .yarnrc.yml
+# yarn.lock
 CLAUDE.md
 CONTRIBUTING.md
-*.json
+# *.json
 
