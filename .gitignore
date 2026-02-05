@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # dependencies
 node_modules
 
@@ -21,3 +22,15 @@ node_modules
 
 # cli
 dist
+=======
+node_modules
+.env
+.claude/
+.yarn/
+.yarnrc.yml
+yarn.lock
+CLAUDE.md
+CONTRIBUTING.md
+*.json
+
+>>>>>>> origin/main
