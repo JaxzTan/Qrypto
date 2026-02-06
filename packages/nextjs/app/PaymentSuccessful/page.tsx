@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Address, EtherInput } from "@scaffold-ui/components";
+import { useEffect, useState } from "react";
+import { Address } from "@scaffold-ui/components";
 import type { NextPage } from "next";
-import { parseEther } from "viem";
+import { parseUnits } from "viem";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 const PaymentPage: NextPage = () => {
@@ -11,6 +11,9 @@ const PaymentPage: NextPage = () => {
   const [customAmount, setCustomAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isCustom, setIsCustom] = useState<boolean>(false);
+  const [usdcToMyrRate, setUsdcToMyrRate] = useState<number>(4.45); // Default fallback rate
+  const [isLoadingRate, setIsLoadingRate] = useState<boolean>(true);
+  const [rateError, setRateError] = useState<string>("");
 
   const { writeContractAsync, isPending } = useScaffoldWriteContract({
     contractName: "YourContract",
@@ -20,9 +23,51 @@ const PaymentPage: NextPage = () => {
   const recipientName = "Jaxz Tan";
   const recipientAddress = "0x1234567890123456789012345678901234567890" as `0x${string}`;
 
-  // Preset amount options (in ETH)
+  // Preset amount options (in MYR)
+  const presetAmounts = ["10", "50", "100", "500", "1000"];
 
-  const presetAmounts = ["0.01", "0.05", "0.1", "0.5", "1"];
+  // Fetch live USDC to MYR conversion rate
+  useEffect(() => {
+    const fetchUSDCRate = async () => {
+      try {
+        setIsLoadingRate(true);
+        setRateError("");
+        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=myr");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch exchange rate");
+        }
+
+        const data = await response.json();
+        const rate = data["usd-coin"]?.myr;
+
+        if (rate && typeof rate === "number") {
+          setUsdcToMyrRate(rate);
+        } else {
+          throw new Error("Invalid rate data");
+        }
+      } catch (error) {
+        console.error("Error fetching USDC rate:", error);
+        setRateError("Using fallback rate");
+        // Keep using the default fallback rate
+      } finally {
+        setIsLoadingRate(false);
+      }
+    };
+
+    fetchUSDCRate();
+    // Refresh rate every 5 minutes
+    const interval = setInterval(fetchUSDCRate, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Convert MYR to USDC
+  const convertMYRtoUSDC = (myrAmount: string): string => {
+    const myr = parseFloat(myrAmount);
+    if (isNaN(myr)) return "0";
+    return (myr / usdcToMyrRate).toFixed(2);
+  };
 
   const handleAmountSelect = (amount: string) => {
     setSelectedAmount(amount);
@@ -37,9 +82,9 @@ const PaymentPage: NextPage = () => {
 
   const handleConfirmPayment = async () => {
     try {
-      const amountToSend = isCustom ? customAmount : selectedAmount;
+      const myrAmount = isCustom ? customAmount : selectedAmount;
 
-      if (!amountToSend || parseFloat(amountToSend) <= 0) {
+      if (!myrAmount || parseFloat(myrAmount) <= 0) {
         alert("Please select or enter a valid amount");
         return;
       }
@@ -49,12 +94,18 @@ const PaymentPage: NextPage = () => {
         return;
       }
 
-      // Example: sending ETH with a contract function
-      // Replace with your actual contract function
+      // Convert MYR to USDC
+      const usdcAmount = convertMYRtoUSDC(myrAmount);
+
+      // USDC has 6 decimals
+      const usdcValue = parseUnits(usdcAmount, 6);
+
+      // Send USDC transaction
+      // Replace with your actual USDC contract function
       await writeContractAsync({
         functionName: "setGreeting",
         args: [description],
-        value: parseEther(amountToSend),
+        value: usdcValue,
       });
 
       // Reset form after successful transaction
@@ -71,11 +122,17 @@ const PaymentPage: NextPage = () => {
     return isCustom ? customAmount : selectedAmount;
   };
 
+  const getUSDCAmount = () => {
+    const myrAmount = getSelectedAmountValue();
+    return myrAmount ? convertMYRtoUSDC(myrAmount) : "";
+  };
+
   return (
     <div className="flex items-center flex-col flex-grow pt-10">
       <div className="px-5 w-full max-w-2xl">
         <h1 className="text-center mb-8">
-          <span className="block text-4xl font-bold">Payment Page</span>
+          <span className="block text-4xl font-bold">USDC Payment</span>
+          <span className="block text-sm mt-2 opacity-70">Pay in MYR, settled in USDC</span>
         </h1>
 
         <div className="card bg-base-100 shadow-xl">
@@ -94,7 +151,7 @@ const PaymentPage: NextPage = () => {
             {/* Amount Selection Section */}
             <div className="mb-6">
               <label className="label">
-                <span className="label-text text-lg font-semibold">Select Amount (ETH):</span>
+                <span className="label-text text-lg font-semibold">Select Amount (MYR):</span>
               </label>
               <div className="grid grid-cols-3 gap-3 mb-4">
                 {presetAmounts.map(amount => (
@@ -103,7 +160,7 @@ const PaymentPage: NextPage = () => {
                     onClick={() => handleAmountSelect(amount)}
                     className={`btn ${selectedAmount === amount && !isCustom ? "btn-primary" : "btn-outline"}`}
                   >
-                    {amount} ETH
+                    RM {amount}
                   </button>
                 ))}
                 <button
@@ -117,9 +174,14 @@ const PaymentPage: NextPage = () => {
               {/* Custom Amount Input */}
               {isCustom && (
                 <div className="mt-4">
-                  <EtherInput
-                    onValueChange={value => setCustomAmount(value.valueInEth)}
-                    placeholder="Enter custom amount"
+                  <input
+                    type="number"
+                    className="input input-bordered w-full"
+                    placeholder="Enter amount in MYR"
+                    value={customAmount}
+                    onChange={e => setCustomAmount(e.target.value)}
+                    min="0"
+                    step="0.01"
                   />
                 </div>
               )}
@@ -127,9 +189,29 @@ const PaymentPage: NextPage = () => {
               {/* Display selected amount */}
               {getSelectedAmountValue() && (
                 <div className="alert alert-info mt-4">
-                  <span className="font-semibold">Selected Amount: {getSelectedAmountValue()} ETH</span>
+                  <div className="flex flex-col w-full">
+                    <span className="font-semibold">Amount: RM {getSelectedAmountValue()}</span>
+                    <span className="text-sm">≈ {getUSDCAmount()} USDC</span>
+                    <span className="text-xs opacity-70">Rate: 1 USDC = RM {usdcToMyrRate.toFixed(2)}</span>
+                  </div>
                 </div>
               )}
+            </div>
+
+            {/* Live Exchange Rate Indicator */}
+            <div className="alert mb-4 bg-base-200">
+              <div className="flex items-center justify-between w-full">
+                <span className="font-semibold">Exchange Rate:</span>
+                {isLoadingRate ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  <span>
+                    1 USDC = RM {usdcToMyrRate.toFixed(2)}
+                    {rateError && <span className="text-xs text-warning ml-2">({rateError})</span>}
+                    <span className="text-xs ml-2">🟢 Live</span>
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Description Section */}

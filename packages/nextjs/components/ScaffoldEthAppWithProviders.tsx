@@ -15,10 +15,20 @@ import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className={`flex flex-col min-h-screen `}>
-        <Header />
-        <main className="relative flex flex-col flex-1">{children}</main>
-        <Footer />
+      <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
+        <div
+          className="flex flex-col bg-white shadow-2xl rounded-3xl overflow-hidden"
+          style={{
+            width: "412px",
+            height: "917px",
+            maxWidth: "100vw",
+            maxHeight: "100vh",
+          }}
+        >
+          <Header />
+          <main className="relative flex flex-col flex-1 overflow-y-auto">{children}</main>
+          <Footer />
+        </div>
       </div>
       <Toaster />
     </>
