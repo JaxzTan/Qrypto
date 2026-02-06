@@ -8,6 +8,7 @@ import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth";
 
 import HomeHeader from "../components/HomeHeader.component";
+import ActionGrid from "../components/ActionGrid.component";
 
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
   return (
     <div className="mx-auto min-h-screen max-w-[412px] w-full bg-white font-inter">
       <HomeHeader />
+      <ActionGrid />
     </div>
   )
 };
