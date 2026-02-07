@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Address } from "@scaffold-ui/components";
 import type { NextPage } from "next";
 import { parseUnits } from "viem";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 const PaymentPage: NextPage = () => {
+  const router = useRouter();
   const [selectedAmount, setSelectedAmount] = useState<string>("");
   const [customAmount, setCustomAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -102,17 +104,22 @@ const PaymentPage: NextPage = () => {
 
       // Send USDC transaction
       // Replace with your actual USDC contract function
-      await writeContractAsync({
+      const tx = await writeContractAsync({
         functionName: "setGreeting",
         args: [description],
         value: usdcValue,
       });
 
-      // Reset form after successful transaction
-      setSelectedAmount("");
-      setCustomAmount("");
-      setDescription("");
-      setIsCustom(false);
+      // Redirect to confirmation page with transaction details
+      const params = new URLSearchParams({
+        recipientName: recipientName,
+        amount: myrAmount,
+        usdcAmount: usdcAmount,
+        description: description,
+        transactionHash: tx || "0x...",
+      });
+
+      router.push(`/PaymentSuccessful/confirm?${params.toString()}`);
     } catch (error) {
       console.error("Payment failed:", error);
     }

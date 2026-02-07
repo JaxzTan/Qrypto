@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ActionCard from "./ActionCard.component";
 import TransferIcon from "./icons/Transfer.icon";
 import ReceiveIcon from "./icons/Receive.icon";
@@ -9,7 +10,9 @@ const ActionGrid = () => {
     <section className="grid grid-cols-2 gap-6 px-10 py-10">
       <ActionCard label="Transfer" icon={<TransferIcon />} />
       <ActionCard label="Receive" icon={<ReceiveIcon />} />
-      <ActionCard label="Pay" icon={<PayIcon />} />
+      <Link href="/PaymentSuccessful">
+        <ActionCard label="Pay" icon={<PayIcon />} />
+      </Link>
       <ActionCard label="Wallet" icon={<WalletIcon />} />
     </section>
   );
