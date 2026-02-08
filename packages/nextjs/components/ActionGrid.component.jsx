@@ -7,10 +7,10 @@ import WalletIcon from "./icons/Wallet.icon";
 const ActionGrid = () => {
   return (
     <section className="grid grid-cols-2 gap-6 px-10 py-10">
-      <ActionCard label="Transfer" icon={<TransferIcon />} />
-      <ActionCard label="Receive" icon={<ReceiveIcon />} />
-      <ActionCard label="Pay" icon={<PayIcon />} />
-      <ActionCard label="Wallet" icon={<WalletIcon />} />
+      <ActionCard label="Transfer" icon={<TransferIcon />} href="/transfer" />
+      <ActionCard label="Receive" icon={<ReceiveIcon />} href="/receive" />
+      <ActionCard label="Pay" icon={<PayIcon />} href="/pay" />
+      <ActionCard label="Wallet" icon={<WalletIcon />} href="/wallet" />
     </section>
   );
 };

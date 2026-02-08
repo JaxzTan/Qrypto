@@ -355,6 +355,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@erc7824/nitrolite@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@erc7824/nitrolite@npm:0.5.3"
+  dependencies:
+    abitype: ^1.2.0
+    viem: ^2.39.3
+    zod: ^3.25.76
+  checksum: 2e8e2019c402c16ea7e599736d740a4b9eb212fa2691a2b0d5d742f19a1b3b9253127858db5d3e6179aadcc5da9cf934bd85465868dea33e24a5a394eb83eaf4
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0, @eslint-community/eslint-utils@npm:^4.9.1":
   version: 4.9.1
   resolution: "@eslint-community/eslint-utils@npm:4.9.1"
@@ -2507,7 +2518,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:1.9.1":
+"@noble/curves@npm:1.9.1, @noble/curves@npm:~1.9.0":
   version: 1.9.1
   resolution: "@noble/curves@npm:1.9.1"
   dependencies:
@@ -2516,7 +2527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:^1.4.2, @noble/curves@npm:^1.6.0, @noble/curves@npm:^1.9.7, @noble/curves@npm:~1.9.0":
+"@noble/curves@npm:^1.4.2, @noble/curves@npm:^1.6.0, @noble/curves@npm:^1.9.7":
   version: 1.9.7
   resolution: "@noble/curves@npm:1.9.7"
   dependencies:
@@ -3112,8 +3123,8 @@ __metadata:
   linkType: hard
 
 "@oclif/plugin-plugins@npm:^5":
-  version: 5.4.55
-  resolution: "@oclif/plugin-plugins@npm:5.4.55"
+  version: 5.4.56
+  resolution: "@oclif/plugin-plugins@npm:5.4.56"
   dependencies:
     "@oclif/core": ^4.8.0
     ansis: ^3.17.0
@@ -3122,11 +3133,11 @@ __metadata:
     npm-package-arg: ^11.0.3
     npm-run-path: ^5.3.0
     object-treeify: ^4.0.1
-    semver: ^7.7.3
+    semver: ^7.7.4
     validate-npm-package-name: ^5.0.1
     which: ^4.0.0
     yarn: ^1.22.22
-  checksum: 71de9d6d71b343cee720234067cc6bdbb9d3599d40bc180f7074c134d79540bee673f833f60c7148614f66c87f517c872dbc646a8fd00d463fc0ba2f6cc7942c
+  checksum: c6c05a49b57f44667f30096954ee8f341cdbd320d8247704b585a3dcadebfe817dd25f711aa4edc0e9ccac44eddc996b60bbe996884bb98ec7460eb50f37c1b3
   languageName: node
   linkType: hard
 
@@ -5128,11 +5139,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>=13.7.0":
-  version: 25.2.1
-  resolution: "@types/node@npm:25.2.1"
+  version: 25.2.2
+  resolution: "@types/node@npm:25.2.2"
   dependencies:
     undici-types: ~7.16.0
-  checksum: 46c46b19b358258e065b13a521ea44e025edddbd68b6769979a2e7d78b4561d6fc570511ed46a267ab39d7abd657e9833a1e08abb60d64d206086ae35e94310c
+  checksum: 917d0dc0cbc18e615282825d8ec5352da9c0eda9992fce995d12219b3c8de11f19923a52ad4cbb90f808a210ecf8d6f6ca4efa4a974dfd555982cdb8b9ee8d67
   languageName: node
   linkType: hard
 
@@ -5160,11 +5171,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:^20.10.7":
-  version: 20.19.32
-  resolution: "@types/node@npm:20.19.32"
+  version: 20.19.33
+  resolution: "@types/node@npm:20.19.33"
   dependencies:
     undici-types: ~6.21.0
-  checksum: 9688296b86751eae3ec5aff5bcff5cbbbfc51280e1d391f762a01710073c4fa8910f15df08bc494921570508801701dde5d54df300383623ca12fc4a7d945506
+  checksum: 81819516b2e48fc3efe06682b5405e31c2bca721734a0ce1bec7e34d68b3d6b87e2dd205713c5371746fc501f42a93f3e6442967e1a94f7b872129e109f82163
   languageName: node
   linkType: hard
 
@@ -6463,7 +6474,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"abitype@npm:1.2.3, abitype@npm:^1.0.6, abitype@npm:^1.0.9, abitype@npm:^1.2.3":
+"abitype@npm:1.2.3, abitype@npm:^1.0.6, abitype@npm:^1.0.9, abitype@npm:^1.2.0, abitype@npm:^1.2.3":
   version: 1.2.3
   resolution: "abitype@npm:1.2.3"
   peerDependencies:
@@ -7095,13 +7106,13 @@ __metadata:
   linkType: hard
 
 "axios@npm:^1.12.2, axios@npm:^1.6.7":
-  version: 1.13.4
-  resolution: "axios@npm:1.13.4"
+  version: 1.13.5
+  resolution: "axios@npm:1.13.5"
   dependencies:
-    follow-redirects: ^1.15.6
-    form-data: ^4.0.4
+    follow-redirects: ^1.15.11
+    form-data: ^4.0.5
     proxy-from-env: ^1.1.0
-  checksum: 1d1f360cf54c8a4b602d4d5af1b13f04612be3876a7958e9cd49c5869448399d75978ce4a099839d55ccb9f9aff9d49a312db879dba9d76fac994479fd1ad11c
+  checksum: 985024c4a32f837053f198f02a308fd6f8bfb4053a2f21e39e37992bc6d06917f008679c36b3e7f0f0c9060c85ffe37c61e58d2ac662595d68dc1b89cef78de8
   languageName: node
   linkType: hard
 
@@ -7611,9 +7622,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001579, caniuse-lite@npm:^1.0.30001759, caniuse-lite@npm:^1.0.30001766":
-  version: 1.0.30001768
-  resolution: "caniuse-lite@npm:1.0.30001768"
-  checksum: 6d040e5b477446cc2c1d20100ac4b42a899a2fb3b862861d39ab9a9750c23a8ec69972496d5b6b16fd32b51bc74a9094b0cf3be6cc233f1e4d81b1c03d7a60a5
+  version: 1.0.30001769
+  resolution: "caniuse-lite@npm:1.0.30001769"
+  checksum: be34424b0d2e24f0022d605b14ee799dc0d21aa8315d9db2b94176b311b1b5165972d04653692b509e107fbea5fc5cf3aac888bf61377e3e3048d678fb9bc812
   languageName: node
   linkType: hard
 
@@ -10305,7 +10316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.6":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.11":
   version: 1.15.11
   resolution: "follow-redirects@npm:1.15.11"
   peerDependenciesMeta:
@@ -10341,7 +10352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.0, form-data@npm:^4.0.1, form-data@npm:^4.0.4":
+"form-data@npm:^4.0.0, form-data@npm:^4.0.1, form-data@npm:^4.0.5":
   version: 4.0.5
   resolution: "form-data@npm:4.0.5"
   dependencies:
@@ -10654,11 +10665,11 @@ __metadata:
   linkType: hard
 
 "get-tsconfig@npm:^4.10.0":
-  version: 4.13.3
-  resolution: "get-tsconfig@npm:4.13.3"
+  version: 4.13.6
+  resolution: "get-tsconfig@npm:4.13.6"
   dependencies:
     resolve-pkg-maps: ^1.0.0
-  checksum: 8624a4d14566de25026fc1eb358308af7de6f56175e69ec6c19a73eaff55c3b1a13b6dbc547e0a3c52440729a8eb969360f967cbadf64df27032cf9dfe826c8f
+  checksum: 946575897a75b3de39905a8e95fe761b1ae9a595c8608c3982fa3a5748ed0d6441c799197a99fee27876cd8c5a2158418ad6e88d8008ec1244639c0f5ee2a2d8
   languageName: node
   linkType: hard
 
@@ -11187,9 +11198,9 @@ __metadata:
   linkType: hard
 
 "hono@npm:^4.10.3":
-  version: 4.11.7
-  resolution: "hono@npm:4.11.7"
-  checksum: 6dc49cc1ac8ae597bd7c67e317dbb3a04c12c02841d6b56735df6be1876700daaedebe16554422f90d99a1d8b7a8479af8d1572a6b77e6ce0957e7e3cd8fd529
+  version: 4.11.8
+  resolution: "hono@npm:4.11.8"
+  checksum: 94e34704d94e6144b0f6f37ae5aa5b80ec2a48baa479075d4c94ab02870d9674def7c1657e84d325bb37cd062d607535e0ee99500b5c158d2c5646633e3815ce
   languageName: node
   linkType: hard
 
@@ -12034,9 +12045,9 @@ __metadata:
   linkType: hard
 
 "isexe@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "isexe@npm:3.1.1"
-  checksum: 7fe1931ee4e88eb5aa524cd3ceb8c882537bc3a81b02e438b240e47012eef49c86904d0f0e593ea7c3a9996d18d0f1f3be8d3eaa92333977b0c3a9d353d5563e
+  version: 3.1.4
+  resolution: "isexe@npm:3.1.4"
+  checksum: 41b2006cb0f545092b73246edccdaaf12243cc14b29dff4c7dc6759eba659fa8c16de7d9c64a9fb4d05be9cc83b12399ea553ef8a9763db02b1433261005b98a
   languageName: node
   linkType: hard
 
@@ -16287,6 +16298,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
+    "@erc7824/nitrolite": ^0.5.3
     husky: ~9.1.6
     lint-staged: ~13.2.2
   languageName: unknown
@@ -16333,12 +16345,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.1.1, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8, semver@npm:^7.5.3, semver@npm:^7.5.4, semver@npm:^7.6.0, semver@npm:^7.6.3, semver@npm:^7.7.1, semver@npm:^7.7.2, semver@npm:^7.7.3":
-  version: 7.7.3
-  resolution: "semver@npm:7.7.3"
+"semver@npm:^7.1.1, semver@npm:^7.3.4, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8, semver@npm:^7.5.3, semver@npm:^7.5.4, semver@npm:^7.6.0, semver@npm:^7.6.3, semver@npm:^7.7.1, semver@npm:^7.7.2, semver@npm:^7.7.3, semver@npm:^7.7.4":
+  version: 7.7.4
+  resolution: "semver@npm:7.7.4"
   bin:
     semver: bin/semver.js
-  checksum: f013a3ee4607857bcd3503b6ac1d80165f7f8ea94f5d55e2d3e33df82fce487aa3313b987abf9b39e0793c83c9fc67b76c36c067625141a9f6f704ae0ea18db2
+  checksum: 9b4a6a58e98b9723fafcafa393c9d4e8edefaa60b8dfbe39e30892a3604cf1f45f52df9cfb1ae1a22b44c8b3d57fec8a9bb7b3e1645431587cb272399ede152e
   languageName: node
   linkType: hard
 
@@ -18024,9 +18036,9 @@ __metadata:
   linkType: hard
 
 "undici-types@npm:^7.19.2":
-  version: 7.20.0
-  resolution: "undici-types@npm:7.20.0"
-  checksum: e5fe5a90fab96d90e9cb03cbda42d6edfcd8046c7c2c3167752af22cab4da404f42224b3df2bd055ae168fe8e2e486be91fcdb4cf3be03b2774d5e2409684785
+  version: 7.21.0
+  resolution: "undici-types@npm:7.21.0"
+  checksum: 9a178d1f5fa36767bb9f9b3e0f235bee2d6c679055a2c5192e906791da3696b49a90aa21228a7465d4aa49ba76c4a0a1b781912474d7f7c843a871a10dc1fc74
   languageName: node
   linkType: hard
 
@@ -18551,7 +18563,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:>=2.29.0, viem@npm:^2.1.1, viem@npm:^2.21.26, viem@npm:^2.27.0, viem@npm:^2.27.2, viem@npm:^2.31.7":
+"viem@npm:>=2.29.0, viem@npm:^2.1.1, viem@npm:^2.21.26, viem@npm:^2.27.0, viem@npm:^2.27.2, viem@npm:^2.31.7, viem@npm:^2.39.3":
   version: 2.45.1
   resolution: "viem@npm:2.45.1"
   dependencies:
@@ -19200,7 +19212,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.4, zod@npm:^3.24.4":
+"zod@npm:^3.22.4, zod@npm:^3.24.4, zod@npm:^3.25.76":
   version: 3.25.76
   resolution: "zod@npm:3.25.76"
   checksum: c9a403a62b329188a5f6bd24d5d935d2bba345f7ab8151d1baa1505b5da9f227fb139354b043711490c798e91f3df75991395e40142e6510a4b16409f302b849

@@ -1,7 +1,12 @@
-const ActionCard = ({ label, icon }) => {
+import Link from "next/link";
+
+const ActionCard = ({ label, icon, href }) => {
   return (
-    <div className="aspect-square rounded-[36px] bg-[#F4FAFF] transition hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-200/40">
-      <button className="flex h-full w-full flex-col items-center justify-center gap-2">
+    <Link
+      href={href || "#"}
+      className="aspect-square rounded-[36px] bg-[#F4FAFF] transition hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-200/40 no-underline"
+    >
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2">
         <div className="transition hover:scale-110">
           {icon}
         </div>
@@ -9,8 +14,8 @@ const ActionCard = ({ label, icon }) => {
         <span className="bg-gradient-to-r from-[#6EC7E1] to-[#44AAC8] bg-clip-text text-sm text-transparent">
           {label}
         </span>
-      </button>
-    </div>
+      </div>
+    </Link>
   );
 };
 
