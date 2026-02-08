@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useEnsProfile } from "../hooks/useEnsProfile";
 
 export function EnsPaymentInput({ onAddressResolved }: { onAddressResolved?: (address: string) => void }) {
@@ -29,7 +30,7 @@ export function EnsPaymentInput({ onAddressResolved }: { onAddressResolved?: (ad
       {/* Resolved Profile */}
       {address && !isLoading && (
         <div className="flex items-center gap-3 mt-3 p-3 bg-base-200 rounded-lg">
-          <img src={avatar || "/default-avatar.png"} alt="avatar" className="w-10 h-10 rounded-full" />
+          <Image src={avatar || "/default-avatar.png"} alt="avatar" width={40} height={40} className="rounded-full" />
           <div>
             {name && <p className="font-bold">{name}</p>}
             <p className="text-sm font-mono text-gray-500">
