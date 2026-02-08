@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Address } from "@scaffold-ui/components";
 import type { NextPage } from "next";
 import { parseUnits } from "viem";
+import { CONTACTS } from "~~/data/contacts";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 const PaymentPage: NextPage = () => {
@@ -21,8 +22,9 @@ const PaymentPage: NextPage = () => {
     contractName: "YourContract",
   });
 
-  const recipientName = "Jaxz Tan";
-  const recipientAddress = "0x1234567890123456789012345678901234567890" as `0x${string}`;
+  const recipient = CONTACTS.find(c => c.name === "Jaxz") || CONTACTS[0];
+  const recipientName = recipient.name;
+  const recipientAddress = recipient.address;
 
   const presetAmounts = ["10", "50", "100", "500", "1000"];
 
