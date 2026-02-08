@@ -1,21 +1,34 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 const ActionCard = ({ label, icon, href }) => {
+  const router = useRouter();
+  const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
+  const handleClick = () => {
+    if (!isConnected) {
+      openConnectModal?.();
+    } else {
+      router.push(href || "/");
+    }
+  };
+
   return (
-    <Link
-      href={href || "#"}
-      className="aspect-square rounded-[36px] bg-[#F4FAFF] transition hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-200/40 no-underline"
+    <button
+      onClick={handleClick}
+      className="aspect-square rounded-[36px] bg-[#F4FAFF] transition hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-200/40"
     >
       <div className="flex h-full w-full flex-col items-center justify-center gap-2">
-        <div className="transition hover:scale-110">
-          {icon}
-        </div>
-
+        <div className="transition hover:scale-110">{icon}</div>
         <span className="bg-gradient-to-r from-[#6EC7E1] to-[#44AAC8] bg-clip-text text-sm text-transparent">
           {label}
         </span>
       </div>
-    </Link>
+    </button>
   );
 };
 

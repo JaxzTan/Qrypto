@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { NextPage } from "next";
 
 const DepositPage: NextPage = () => {
+  const router = useRouter();
   const [amount, setAmount] = useState("");
   const [error, setError] = useState("");
 
@@ -21,6 +23,7 @@ const DepositPage: NextPage = () => {
     const num = parseFloat(amount);
     if (isNaN(num) || num < 10) return;
     alert(`Depositing ${amount} USDC`);
+    router.push("/");
   };
 
   return (

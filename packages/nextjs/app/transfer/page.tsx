@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { NextPage } from "next";
 import { CONTACTS } from "~~/data/contacts";
 import type { Contact } from "~~/data/contacts";
@@ -16,7 +17,17 @@ const TransferPage: NextPage = () => {
 
   return (
     <div className="flex flex-col h-full w-full px-3 py-3">
-      <p className="text-center text-lg font-bold mb-2">Transfer</p>
+      <p className="text-center text-lg font-bold mb-1">Transfer</p>
+
+      {/* Toggle ENS / Address */}
+      <div className="flex justify-center mb-2">
+        <div className="btn-group">
+          <span className="btn btn-xs btn-primary">ENS</span>
+          <Link href="/transfer_without_ens" className="btn btn-xs btn-outline">
+            Address
+          </Link>
+        </div>
+      </div>
 
       {/* Contacts List */}
       <div className="flex flex-col gap-1.5 mb-3">

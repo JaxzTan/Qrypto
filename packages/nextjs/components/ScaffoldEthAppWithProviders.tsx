@@ -1,20 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, useAccount } from "wagmi";
 import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 
+const DisconnectRedirect = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { isConnected } = useAccount();
+  const wasConnected = useRef(true);
+
+  useEffect(() => {
+    if (wasConnected.current && !isConnected && pathname !== "/") {
+      router.push("/");
+    }
+    wasConnected.current = isConnected;
+  }, [isConnected, pathname, router]);
+
+  return null;
+};
+
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
+      <DisconnectRedirect />
       <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
         <div
           className="flex flex-col bg-white shadow-2xl rounded-3xl overflow-hidden"
