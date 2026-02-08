@@ -9,7 +9,7 @@ const ActionGrid = () => {
     <section className="grid grid-cols-2 gap-6 px-10 py-10">
       <ActionCard label="Transfer" icon={<TransferIcon />} href="/transfer" />
       <ActionCard label="Receive" icon={<ReceiveIcon />} href="/receive" />
-      <ActionCard label="Pay" icon={<PayIcon />} href="/pay" />
+      <ActionCard label="Pay" icon={<PayIcon />} href="/payment" />
       <ActionCard label="Wallet" icon={<WalletIcon />} href="/wallet" />
     </section>
   );

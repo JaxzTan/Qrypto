@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Address } from "@scaffold-ui/components";
 import type { NextPage } from "next";
 import { parseUnits } from "viem";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 const PaymentPage: NextPage = () => {
+  const router = useRouter();
   const [selectedAmount, setSelectedAmount] = useState<string>("");
   const [customAmount, setCustomAmount] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isCustom, setIsCustom] = useState<boolean>(false);
-  const [usdcToMyrRate, setUsdcToMyrRate] = useState<number>(4.45); // Default fallback rate
+  const [usdcToMyrRate, setUsdcToMyrRate] = useState<number>(4.45);
   const [isLoadingRate, setIsLoadingRate] = useState<boolean>(true);
   const [rateError, setRateError] = useState<string>("");
 
@@ -19,14 +21,11 @@ const PaymentPage: NextPage = () => {
     contractName: "YourContract",
   });
 
-  // Hardcoded recipient
   const recipientName = "Jaxz Tan";
   const recipientAddress = "0x1234567890123456789012345678901234567890" as `0x${string}`;
 
-  // Preset amount options (in MYR)
   const presetAmounts = ["10", "50", "100", "500", "1000"];
 
-  // Fetch live USDC to MYR conversion rate
   useEffect(() => {
     const fetchUSDCRate = async () => {
       try {
@@ -34,9 +33,7 @@ const PaymentPage: NextPage = () => {
         setRateError("");
         const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=usd-coin&vs_currencies=myr");
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch exchange rate");
-        }
+        if (!response.ok) throw new Error("Failed to fetch exchange rate");
 
         const data = await response.json();
         const rate = data["usd-coin"]?.myr;
@@ -48,21 +45,17 @@ const PaymentPage: NextPage = () => {
         }
       } catch (error) {
         console.error("Error fetching USDC rate:", error);
-        setRateError("Using fallback rate");
-        // Keep using the default fallback rate
+        setRateError("Fallback rate");
       } finally {
         setIsLoadingRate(false);
       }
     };
 
     fetchUSDCRate();
-    // Refresh rate every 5 minutes
     const interval = setInterval(fetchUSDCRate, 5 * 60 * 1000);
-
     return () => clearInterval(interval);
   }, []);
 
-  // Convert MYR to USDC
   const convertMYRtoUSDC = (myrAmount: string): string => {
     const myr = parseFloat(myrAmount);
     if (isNaN(myr)) return "0";
@@ -90,37 +83,31 @@ const PaymentPage: NextPage = () => {
       }
 
       if (!description.trim()) {
-        alert("Please enter a transaction description");
+        alert("Please enter a message");
         return;
       }
 
-      // Convert MYR to USDC
       const usdcAmount = convertMYRtoUSDC(myrAmount);
-
-      // USDC has 6 decimals
       const usdcValue = parseUnits(usdcAmount, 6);
 
-      // Send USDC transaction
-      // Replace with your actual USDC contract function
       await writeContractAsync({
         functionName: "setGreeting",
         args: [description],
         value: usdcValue,
       });
 
-      // Reset form after successful transaction
-      setSelectedAmount("");
-      setCustomAmount("");
-      setDescription("");
-      setIsCustom(false);
+      const params = new URLSearchParams({
+        amount: myrAmount,
+        usdc: usdcAmount,
+        recipient: recipientName,
+      });
+      router.push(`/payment-successful?${params.toString()}`);
     } catch (error) {
       console.error("Payment failed:", error);
     }
   };
 
-  const getSelectedAmountValue = () => {
-    return isCustom ? customAmount : selectedAmount;
-  };
+  const getSelectedAmountValue = () => (isCustom ? customAmount : selectedAmount);
 
   const getUSDCAmount = () => {
     const myrAmount = getSelectedAmountValue();
@@ -128,124 +115,102 @@ const PaymentPage: NextPage = () => {
   };
 
   return (
-    <div className="flex items-center flex-col flex-grow pt-10">
-      <div className="px-5 w-full max-w-2xl">
-        <h1 className="text-center mb-8">
-          <span className="block text-4xl font-bold">USDC Payment</span>
-          <span className="block text-sm mt-2 opacity-70">Pay in MYR, settled in USDC</span>
-        </h1>
+    <div className="flex flex-col h-full w-full px-3 py-3">
+      <p className="text-center text-lg font-bold mb-2">USDC Payment</p>
 
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            {/* Recipient Section */}
-            <div className="mb-6">
-              <label className="label">
-                <span className="label-text text-lg font-semibold">Pay To:</span>
-              </label>
-              <div className="bg-base-200 p-4 rounded-lg">
-                <p className="text-xl font-bold mb-2">{recipientName}</p>
-                <Address address={recipientAddress} />
-              </div>
-            </div>
-
-            {/* Amount Selection Section */}
-            <div className="mb-6">
-              <label className="label">
-                <span className="label-text text-lg font-semibold">Select Amount (MYR):</span>
-              </label>
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                {presetAmounts.map(amount => (
-                  <button
-                    key={amount}
-                    onClick={() => handleAmountSelect(amount)}
-                    className={`btn ${selectedAmount === amount && !isCustom ? "btn-primary" : "btn-outline"}`}
-                  >
-                    RM {amount}
-                  </button>
-                ))}
-                <button
-                  onClick={handleCustomAmountToggle}
-                  className={`btn ${isCustom ? "btn-primary" : "btn-outline"}`}
-                >
-                  Custom
-                </button>
-              </div>
-
-              {/* Custom Amount Input */}
-              {isCustom && (
-                <div className="mt-4">
-                  <input
-                    type="number"
-                    className="input input-bordered w-full"
-                    placeholder="Enter amount in MYR"
-                    value={customAmount}
-                    onChange={e => setCustomAmount(e.target.value)}
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-              )}
-
-              {/* Display selected amount */}
-              {getSelectedAmountValue() && (
-                <div className="alert alert-info mt-4">
-                  <div className="flex flex-col w-full">
-                    <span className="font-semibold">Amount: RM {getSelectedAmountValue()}</span>
-                    <span className="text-sm">≈ {getUSDCAmount()} USDC</span>
-                    <span className="text-xs opacity-70">Rate: 1 USDC = RM {usdcToMyrRate.toFixed(2)}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Live Exchange Rate Indicator */}
-            <div className="alert mb-4 bg-base-200">
-              <div className="flex items-center justify-between w-full">
-                <span className="font-semibold">Exchange Rate:</span>
-                {isLoadingRate ? (
-                  <span className="loading loading-spinner loading-sm"></span>
-                ) : (
-                  <span>
-                    1 USDC = RM {usdcToMyrRate.toFixed(2)}
-                    {rateError && <span className="text-xs text-warning ml-2">({rateError})</span>}
-                    <span className="text-xs ml-2">🟢 Live</span>
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Description Section */}
-            <div className="mb-6">
-              <label className="label">
-                <span className="label-text text-lg font-semibold">Transaction Description:</span>
-              </label>
-              <textarea
-                className="textarea textarea-bordered w-full h-24"
-                placeholder="Enter a description for this payment (e.g., 'Payment for services', 'Invoice #123')"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-              />
-            </div>
-
-            {/* Confirm Button */}
-            <div className="card-actions justify-end mt-4">
-              <button
-                onClick={handleConfirmPayment}
-                disabled={isPending || !getSelectedAmountValue() || !description.trim()}
-                className="btn btn-primary btn-lg w-full"
-              >
-                {isPending ? (
-                  <>
-                    <span className="loading loading-spinner"></span>
-                    Processing...
-                  </>
-                ) : (
-                  "Confirm Payment"
-                )}
-              </button>
-            </div>
+      {/* Recipient */}
+      <div className="bg-base-200 p-2 rounded-lg mb-2 flex items-center gap-2 overflow-x-hidden">
+        <div className="min-w-0">
+          <span className="text-xs opacity-60">To:</span>
+          <p className="font-bold text-sm leading-tight">{recipientName}</p>
+          <div className="text-xs truncate">
+            <Address address={recipientAddress} />
           </div>
         </div>
+      </div>
+
+      {/* Amount */}
+      <div className="mb-2">
+        <span className="text-xs font-semibold">Amount (MYR)</span>
+        <div className="grid grid-cols-3 gap-1.5 mt-1">
+          {presetAmounts.map(amount => (
+            <button
+              key={amount}
+              onClick={() => handleAmountSelect(amount)}
+              className={`btn btn-xs ${selectedAmount === amount && !isCustom ? "btn-primary" : "btn-outline"}`}
+            >
+              RM {amount}
+            </button>
+          ))}
+          <button
+            onClick={handleCustomAmountToggle}
+            className={`btn btn-xs ${isCustom ? "btn-primary" : "btn-outline"}`}
+          >
+            Custom
+          </button>
+        </div>
+
+        {isCustom && (
+          <input
+            type="number"
+            className="input input-bordered input-xs w-full mt-1.5"
+            placeholder="Amount in MYR"
+            value={customAmount}
+            onChange={e => setCustomAmount(e.target.value)}
+            min="0"
+            step="0.01"
+          />
+        )}
+
+        {getSelectedAmountValue() && (
+          <div className="bg-info/10 rounded-lg px-3 py-1.5 mt-1.5 text-sm">
+            <span className="font-semibold">RM {getSelectedAmountValue()}</span>
+            <span className="opacity-70 ml-2">{getUSDCAmount()} USDC</span>
+          </div>
+        )}
+      </div>
+
+      {/* Rate */}
+      <div className="bg-base-200 rounded-lg px-3 py-1.5 mb-2 flex items-center justify-between text-xs">
+        <span className="font-semibold">Rate</span>
+        {isLoadingRate ? (
+          <span className="loading loading-spinner loading-xs"></span>
+        ) : (
+          <span>
+            1 USDC = RM {usdcToMyrRate.toFixed(2)}
+            {rateError && <span className="text-warning ml-1">({rateError})</span>}
+          </span>
+        )}
+      </div>
+
+      {/* Message */}
+      <div className="mb-2">
+        <span className="text-xs font-semibold">Message</span>
+        <input
+          type="text"
+          className="input input-bordered input-sm w-full mt-1"
+          placeholder="e.g. Invoice #123"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+        />
+      </div>
+
+      {/* Pay Button - pushed to bottom */}
+      <div className="mt-auto pt-2">
+        <button
+          onClick={handleConfirmPayment}
+          disabled={isPending || !getSelectedAmountValue() || !description.trim()}
+          className="btn btn-primary w-full"
+        >
+          {isPending ? (
+            <>
+              <span className="loading loading-spinner loading-sm"></span>
+              Paying...
+            </>
+          ) : (
+            "Pay"
+          )}
+        </button>
       </div>
     </div>
   );

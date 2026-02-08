@@ -27,7 +27,7 @@ export const menuLinks: HeaderMenuLink[] = [
   },
   {
     label: "Transaction Page",
-    href: "/PaymentSuccessful",
+    href: "/payment-successful",
   },
 ];
 
