@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(yarn next:lint:*)",
+      "Bash(git push:*)",
+      "Bash(time yarn install:*)",
+      "Bash(yarn config:*)",
+      "Bash(yarn config get:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "context7"
+  ]
+}

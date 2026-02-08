@@ -1,22 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { EnsPaymentInput } from "../components/EnsPaymentInput";
+import ActionGrid from "../components/ActionGrid.component";
+import HomeHeader from "../components/HomeHeader.component";
 
-export default function Home() {
-  const [recipientAddress, setRecipientAddress] = useState("");
-
+const Home = () => {
   return (
-    <div className="flex flex-col items-center p-10">
-      <h1 className="text-4xl font-bold mb-8">Pay with USDC</h1>
-
-      {/* ENS Input */}
-      <EnsPaymentInput onAddressResolved={setRecipientAddress} />
-
-      {/* Payment Button */}
-      {recipientAddress && (
-        <button className="btn btn-primary mt-6">Send USDC to {recipientAddress.slice(0, 6)}...</button>
-      )}
+    <div className="mx-auto min-h-screen max-w-[412px] w-full bg-white font-inter overflow-hidden">
+      <HomeHeader />
+      <ActionGrid />
     </div>
   );
-}
+};
+
+export default Home;
