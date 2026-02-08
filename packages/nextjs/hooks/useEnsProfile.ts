@@ -7,14 +7,14 @@ export function useEnsProfile(input: string) {
 
   const { data: resolvedAddress, isLoading: isLoadingAddress } = useEnsAddress({
     name: isEnsName ? normalize(input) : undefined,
-    chainId: 1,
+    chainId: 11155111, // Sepolia testnet
     query: { enabled: isEnsName },
   });
 
   // Address → ENS name
   const { data: ensName, isLoading: isLoadingName } = useEnsName({
     address: !isEnsName && isAddress(input) ? input : undefined,
-    chainId: 1,
+    chainId: 11155111, // Sepolia testnet
     query: { enabled: !isEnsName && isAddress(input) },
   });
 
@@ -22,7 +22,7 @@ export function useEnsProfile(input: string) {
   const nameToUse = isEnsName ? normalize(input) : ensName;
   const { data: avatar } = useEnsAvatar({
     name: nameToUse || undefined,
-    chainId: 1,
+    chainId: 11155111, // Sepolia testnet
     query: { enabled: !!nameToUse },
   });
 
